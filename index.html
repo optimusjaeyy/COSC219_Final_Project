@@ -3,10 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--Temporary Page Title || TO DO: Change Title Page-->
-    <title>Main Page</title>
-
-    <script type="module"></script>
+    <title>Manga Shelf</title>
+    <script type="module" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+    <!--Links styles.css-->
   </head>
-  <body></body>
+  <body>
+    <main>
+      <h1>Manga Shelf</h1>
+      <form id="search-form">
+        <label for="search-input">Search for Manga, Manhwa, Manhua</label><br />
+        <input
+          type="search"
+          id="search-input"
+          name="search"
+          placeholder="Search for manga"
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <p id="status" role="status"></p>
+      <ul id="results" class="grid"></ul>
+    </main>
+  </body>
 </html>
