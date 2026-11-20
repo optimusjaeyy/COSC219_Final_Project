@@ -18,7 +18,7 @@ const QUERY = `
         currentPage
         hasNextPage
       }
-      media(type: MANGA, search: $search, countryOfOrigin: $country, status: $status, genre: $genre) {
+      media(type: MANGA, search: $search, countryOfOrigin: $country, status: $status, genre: $genre, isAdult: false) {
         id
         title {
           romaji
