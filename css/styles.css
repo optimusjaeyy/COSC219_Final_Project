@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css?family=Geist+Pixel|Bitcount+Prop+Double'); 
+
+*, *::before, *::after{ box-sizing: border-box;}
+
+main {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: var(--space);
+}
+
+:root{
+    --currentFocus: #19cabe;
+    --submitColor: #a92837;
+    --space: 10px 10px;
+
+}
+
+
+/*================== HEADERS & SUBHEADERS ==================*/
+
+#main-header {
+    font-family: 'Bitcount Prop Double', monospace;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+    "slnt" 0,
+    "CRSV" 0.5,
+    "ELSH" 0,
+    "ELXP" 0;
+    font-size: 3em;
+
+    text-shadow: 0 0 5px #86042f, 0 0 15px #efabc3, 0 0 25px #d5084c;
+    text-align: center;
+    color: #fff4f8;
+}
+#subheader {
+    font-family: 'Bitcount Prop Double', monospace;
+    font-size: 2em;
+    text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
+    text-align: center;
+    color: #fff4f8;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+#top{
+    
+}
+
+
+/*================== BODY ==================*/
+
+body {
+    font-family: 'Geist Pixel', sans-serif;
+    font-weight: bolder;
+    font-size: 1em;
+    color: #333;
+    line-height: 1.6;
+    margin: 20px;
+    align-self: center;
+    justify-self: center;
+
+/* for background */
+    background: linear-gradient(270deg, #5d0637, #47057a, 
+        #04665f, #47057a, #5d0637); 
+    background-size: 350%;
+    animation: gradientShift 40s linear infinite;
+}
+@keyframes gradientShift{ /*I wanna use this animation thing a lot more ^_^*/
+    0%{ background-position: 0% 50%;}
+    50%{ background-position: 100% 50%;}
+    100%{ background-position: 0% 50%;}
+}
+
+
+/*================== CONTAINERS ==================*/
+#container {
+    width: 85vw;
+    align-self: center;
+    background-color: #3e3e3e3d;
+    color: rgb(242, 242, 242);
+    padding: 2vw 4vw;
+    border-radius: 8px;
+    box-shadow: 0 4px 7px rgba(212, 212, 212, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+}
+#subcontainer {
+    width: 85%;
+    margin: 1rem;
+    background-color: #ffffff7e;
+    color: rgb(0, 0, 0);
+    padding: 5vw;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    list-style: none;
+}
+
+
+/*================== CARD DESIGN ==================*/
+#results{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(16rem, 1fr));
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+@media (min-width: 38rem) {
+    #results { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 58rem) {
+    #results { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 75rem) {
+    #results { grid-template-columns: repeat(5, 1fr); }
+}
+
+.card{
+    background-color: #1423277e;
+    color: #dddddd;
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.card:hover{
+
+}
+.card-title{
+    font-size: 1rem;
+    text-align: center;
+    text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
+}
+.card-cover{
+    width: 90%;
+}

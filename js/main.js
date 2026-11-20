@@ -14,25 +14,25 @@ function setStatus(message) {
 // --- 3. Creates card for the result ----
 function createCard(series) {
   const li = document.createElement("li");
-  li.className = "grid";
+  li.className = "card";
   li.dataset.id = series.id;
 
   const title = document.createElement("h2");
-  title.className = "grid";
+  title.className = "card-title";
   title.textContent = series.title.english || series.title.romaji;
 
   const coverImg = document.createElement("img");
-  coverImg.className = "grid";
+  coverImg.className = "card-cover";
   coverImg.src = series.coverImage.large;
   coverImg.alt = `Cover page of ${title.textContent}`;
 
   const score = document.createElement("p");
-  score.className = "grid";
+  score.className = "card-score";
   score.textContent =
     series.averageScore > 0 ? `Score: ${series.averageScore}` : "No score yet";
 
   const status = document.createElement("p");
-  status.className = "grid";
+  status.className = "card-status";
   status.textContent = series.status;
 
   // appends new created element to list
