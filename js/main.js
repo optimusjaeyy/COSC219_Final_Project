@@ -7,7 +7,9 @@ const input = document.querySelector("#search-input");
 const resultsEl = document.querySelector("#results");
 const suggestionsEl = document.querySelector("#suggestions");
 const genreSelect = document.querySelector("#genre-filter");
-
+const countrySelect = document.querySelector("#country-filter");
+const statusSelect = document.querySelector("#status-filter");
+const resetButton = document.querySelector("#reset-filters");
 let debounceTimer;
 
 // --- Creates card for the result ----
@@ -59,16 +61,28 @@ function renderCards(mediaList) {
   resultsEl.replaceChildren(...cards);
 }
 
+// --- getter function for filters ---
+function getFilters() {
+  return {
+    search: input.value.trim() || undefined,
+    country: countrySelect.value || undefined,
+    status: statusSelect.value || undefined,
+    genre: genreSelect.value || undefined,
+  };
+}
+
 // --- Loads the output to user ---
 async function loadManga(search) {
   setStatus("Loading...");
   resultsEl.replaceChildren();
   try {
-    const result = await fetchManga({ search: search || undefined });
+    const result = await fetchManga(getFilters());
 
     // empty check for results
     if (result.media.length === 0) {
-      setStatus("No results found. Try a different search.");
+      setStatus(
+        "No results found. Try changing the search or removing a filter.",
+      );
       return;
     }
     renderCards(result.media);
@@ -127,6 +141,23 @@ async function loadGenres() {
     // fail quietly. page works without any genres, so the select stays on "Any"
   }
 }
+
+// --- Filter reset button listener ---
+resetButton.addEventListener("click", () => {
+  countrySelect.value = "";
+  statusSelect.value = "";
+  genreSelect.value = "";
+  clearTimeout(debounceTimer);
+  suggestionsEl.replaceChildren();
+  loadManga();
+});
+
+// --- Filter change listener ---
+form.addEventListener("change", (event) => {
+  if (event.target.matches("select")) {
+    loadManga();
+  }
+});
 
 // --- Input listener ---
 input.addEventListener("input", () => {

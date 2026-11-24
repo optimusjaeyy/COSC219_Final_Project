@@ -11,13 +11,13 @@ export const EXCLUDED_GENRES = ["Hentai", "Ecchi"];
 
 // The query for a LIST of series (browse page and suggestions).
 const QUERY = `
-  query ($page: Int, $perPage: Int, $search: String, $country: CountryCode, $status: MediaStatus, $genre: String, $excluded: [String]) {
+  query ($page: Int, $perPage: Int, $search: String, $country: CountryCode, $status: MediaStatus, $genre: String, $excluded: [String], $sort: [MediaSort]) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         currentPage
         hasNextPage
       }
-      media(type: MANGA, search: $search, countryOfOrigin: $country, status: $status, genre: $genre, isAdult: false, genre_not_in: $excluded) {
+      media(type: MANGA, search: $search, countryOfOrigin: $country, status: $status, genre: $genre, isAdult: false, genre_not_in: $excluded, sort:$sort) {
         id
         title {
           romaji
@@ -107,6 +107,7 @@ export async function fetchManga({
   country,
   status,
   genre,
+  sort = search ? ["SEARCH_MATCH"] : ["TRENDING_DESC"],
 } = {}) {
   const data = await request(QUERY, {
     page,
@@ -116,6 +117,7 @@ export async function fetchManga({
     status,
     genre,
     excluded: EXCLUDED_GENRES,
+    sort,
   });
   return data.Page;
 }
