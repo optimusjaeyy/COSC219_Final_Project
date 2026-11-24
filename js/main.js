@@ -1,5 +1,5 @@
 import { fetchManga } from "./api.js";
-// --- 1. Page elements ----
+// --- Page elements ----
 const form = document.querySelector("#search-form");
 const input = document.querySelector("#search-input");
 const statusEl = document.querySelector("#status");
@@ -8,12 +8,12 @@ const suggestionsEl = document.querySelector("#suggestions");
 
 let debounceTimer;
 
-// --- 2. Puts a message in the status element ----
+// --- Puts a message in the status element ----
 function setStatus(message) {
   statusEl.textContent = message;
 }
 
-// --- 3. Creates card for the result ----
+// --- Creates card for the result ----
 function createCard(series) {
   const li = document.createElement("li");
   li.className = "card";
@@ -41,13 +41,13 @@ function createCard(series) {
   li.append(title, coverImg, score, status);
   return li;
 }
-// --- 4. Turn the array into cards and put them in the results list ----
+// --- Turn the array into cards and put them in the results list ----
 function renderCards(mediaList) {
   const cards = mediaList.map((series) => createCard(series));
   resultsEl.replaceChildren(...cards);
 }
 
-// --- 5. Loads the output to user---
+// --- Loads the output to user---
 async function loadManga(search) {
   setStatus("Loading...");
   resultsEl.replaceChildren();
@@ -68,7 +68,7 @@ async function loadManga(search) {
     setStatus(`Something went wrong: ${error.message}`);
   }
 }
-
+// --- loads title suggestions to user ---
 async function loadSuggestions(text) {
   // if text is shorter than 2 characters -> clear the suggestions and return
   if (text.length < 2) {
@@ -94,17 +94,18 @@ async function loadSuggestions(text) {
     suggestionsEl.replaceChildren();
   }
 }
-
+// --- Getter function for title ---
 function getTitle(series) {
   return series.title.english || series.title.romaji;
 }
 
+// --- Input listener ---
 input.addEventListener("input", () => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => loadSuggestions(input.value.trim()), 300);
 });
 
-// --- 6. Submit listener on the form ----
+// --- Submit listener on the form ----
 form.addEventListener("submit", (event) => {
   event.preventDefault(); // Stops the page from reloading
   clearTimeout(debounceTimer);
@@ -112,6 +113,5 @@ form.addEventListener("submit", (event) => {
   loadManga(input.value.trim()); // reads in the input value
 });
 
-// --- 7. Calls loadManga() once on page load so the page isn't empty ---
-// To Be Decided
+// --- Calls loadManga() once on page load so the page isn't empty ---
 loadManga();
