@@ -1,10 +1,12 @@
 import { fetchManga } from "./api.js";
-console.log("running");
 // --- 1. Page elements ----
 const form = document.querySelector("#search-form");
 const input = document.querySelector("#search-input");
 const statusEl = document.querySelector("#status");
 const resultsEl = document.querySelector("#results");
+const suggestionsEl = document.querySelector("#suggestions");
+
+let debounceTimer;
 
 // --- 2. Puts a message in the status element ----
 function setStatus(message) {
@@ -19,7 +21,7 @@ function createCard(series) {
 
   const title = document.createElement("h2");
   title.className = "card-title";
-  title.textContent = series.title.english || series.title.romaji;
+  title.textContent = getTitle(series);
 
   const coverImg = document.createElement("img");
   coverImg.className = "card-cover";
@@ -54,7 +56,7 @@ async function loadManga(search) {
 
     // empty check for results
     if (result.media.length === 0) {
-      setStatus("No results ...");
+      setStatus("No results found. Try a different search.");
       return;
     }
 
@@ -67,9 +69,46 @@ async function loadManga(search) {
   }
 }
 
+async function loadSuggestions(text) {
+  // if text is shorter than 2 characters -> clear the suggestions and return
+  if (text.length < 2) {
+    suggestionsEl.replaceChildren();
+    return;
+  }
+
+  try {
+    const result = await fetchManga({ search: text, perPage: 5 });
+    // if input.value.trim() no longer equals text -> return (stale answer)
+    if (input.value.trim() !== text) {
+      return;
+    }
+    //fill the suggestions (see below)
+    const options = result.media.map((series) => {
+      const option = document.createElement("option");
+      option.value = getTitle(series);
+      return option;
+    });
+
+    suggestionsEl.replaceChildren(...options);
+  } catch (error) {
+    suggestionsEl.replaceChildren();
+  }
+}
+
+function getTitle(series) {
+  return series.title.english || series.title.romaji;
+}
+
+input.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => loadSuggestions(input.value.trim()), 300);
+});
+
 // --- 6. Submit listener on the form ----
 form.addEventListener("submit", (event) => {
   event.preventDefault(); // Stops the page from reloading
+  clearTimeout(debounceTimer);
+  suggestionsEl.replaceChildren();
   loadManga(input.value.trim()); // reads in the input value
 });
 
