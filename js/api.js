@@ -3,19 +3,21 @@
 // This file's only job: talk to the AniList API and hand back data.
 // It does NOT touch the page (no document.querySelector, no HTML).
 
-// 1. The address we send requests to. AniList has just ONE address
+// The address we send requests to. AniList has just ONE address
 //    for everything; the "query" we send decides what data we get back.
 const ANILIST_URL = "https://graphql.anilist.co";
+// sfw filter
+export const EXCLUDED_GENRES = ["Hentai", "Ecchi"];
 
-// 2. The query for a LIST of series (browse page and suggestions).
+// The query for a LIST of series (browse page and suggestions).
 const QUERY = `
-  query ($page: Int, $perPage: Int, $search: String, $country: CountryCode, $status: MediaStatus, $genre: String) {
+  query ($page: Int, $perPage: Int, $search: String, $country: CountryCode, $status: MediaStatus, $genre: String, $excluded: [String]) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         currentPage
         hasNextPage
       }
-      media(type: MANGA, search: $search, countryOfOrigin: $country, status: $status, genre: $genre, isAdult: false) {
+      media(type: MANGA, search: $search, countryOfOrigin: $country, status: $status, genre: $genre, isAdult: false, genre_not_in: $excluded) {
         id
         title {
           romaji
@@ -34,10 +36,10 @@ const QUERY = `
   }
 `;
 
-// 3. The query for ONE series (detail page).
+// The query for ONE series (detail page).
 const DETAIL_QUERY = `
-  query ($id: Int) {
-    Media(id: $id, type: MANGA, isAdult: false) {
+  query ($id: Int, $excluded: [String]) {
+    Media(id: $id, type: MANGA, isAdult: false, genre_not_in: $excluded) {
       id
       title {
         romaji
@@ -57,7 +59,19 @@ const DETAIL_QUERY = `
   }
 `;
 
-// 4. Private helper (no "export"): sends ANY query and returns json.data.
+// The query for genre filter
+const GENRE_QUERY = `
+  query{
+  GenreCollection
+}`;
+
+// fetches the genre from AniList API
+export async function fetchGenres() {
+  const data = await request(GENRE_QUERY);
+  return data.GenreCollection; // array of strings
+}
+
+// Private helper (no "export"): sends ANY query and returns json.data.
 //    Both functions below use it, so the fetch code is written only once.
 async function request(query, variables) {
   const response = await fetch(ANILIST_URL, {
@@ -84,7 +98,7 @@ async function request(query, variables) {
   return json.data;
 }
 
-// 5. List of series: { pageInfo, media }.
+// List of series: { pageInfo, media }.
 //    Options you leave out (undefined) are not sent, so no filter is applied.
 export async function fetchManga({
   page = 1,
@@ -101,12 +115,13 @@ export async function fetchManga({
     country,
     status,
     genre,
+    excluded: EXCLUDED_GENRES,
   });
   return data.Page;
 }
 
-// 6. One series by id: { id, title, coverImage, description, ... }
+// One series by id: { id, title, coverImage, description, ... }
 export async function fetchMangaById(id) {
-  const data = await request(DETAIL_QUERY, { id });
+  const data = await request(DETAIL_QUERY, { id, excluded: EXCLUDED_GENRES });
   return data.Media;
 }

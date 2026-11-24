@@ -3,35 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manga Shelf</title>
+    <title>Manga Shelf | Browse manga, manhwa, and manhua</title>
     <!--Links main.js-->
     <script type="module" src="js/main.js"></script>
     <!--Links styles.css-->
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <!-- Added a header for heading 1 and pages links -->
+    <header>
+      <h1 id="main-header">Manga Shelf</h1>
+      <nav>
+        <a href="index.html">Browse</a>
+        <a href="shelf.html">My Shelves</a>
+      </nav>
+    </header>
+
     <main>
       <section id="container">
-        <h1 id="main-header">Manga Shelf</h1>
-        <form id="search-form">
-          <label for="search-input">Search for Manga, Manhwa, Manhua</label
-          ><br />
+        <form id="search-form" role="search">
+          <label for="search-input">Search for Manga, Manhwa, Manhua</label>
           <input
             type="search"
             id="search-input"
             name="search"
             list="suggestions"
-            placeholder="Search for manga"
+            placeholder="e.g. Solo Leveling"
           />
           <datalist id="suggestions"></datalist>
+
+          <!-- Filter section -->
+          <fieldset>
+            <legend>Filters</legend>
+
+            <!-- Type of Series filter -->
+            <label for="country-filter">Type</label>
+            <select id="country-filter" name="country">
+              <option value="">All</option>
+              <option value="JP">Manga (Japan)</option>
+              <option value="KR">Manhwa (Korea)</option>
+              <option value="CN">Manhua (China)</option>
+            </select>
+
+            <!-- Status of Series filter -->
+            <label for="status-filter">Status</label>
+            <select id="status-filter" name="status">
+              <option value="">Any</option>
+              <option value="RELEASING">Ongoing</option>
+              <option value="FINISHED">Completed</option>
+              <option value="NOT_YET_RELEASED">Not yet released</option>
+              <option value="HIATUS">On hiatus</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+
+            <!-- Genre of Series filter -->
+            <label for="genre-filter">Genre</label>
+            <select id="genre-filter" name="genre">
+              <option value="">Any</option>
+            </select>
+          </fieldset>
           <button type="submit">Search</button>
         </form>
       </section>
 
       <div id="container">
         <p id="status" role="status"></p>
+        <h2 id="results-heading">Results</h2>
         <ul id="results" class="cards"></ul>
       </div>
     </main>
+
+    <!-- Footer page with API info link and GitHub repo link -->
+    <footer>
+      <p>
+        Data from <a href="https://anilist.co">AniList</a>. Built by Jen Juanich
+        and Reyan Ragual for COSC 219 Final Project.
+      </p>
+      <p>
+        <a href="https://github.com/optimusjaeyy/COSC219-Final_Project"
+          >View the source on GitHub</a
+        >
+      </p>
+    </footer>
   </body>
 </html>
