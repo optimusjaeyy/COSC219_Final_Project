@@ -15,32 +15,47 @@ function setStatus(message) {
 
 // --- Creates card for the result ----
 function createCard(series) {
+  // creates list
   const li = document.createElement("li");
   li.className = "card";
   li.dataset.id = series.id;
 
+  // variable assigned to series title
+  const name = getTitle(series);
+
+  // creates heading for title
   const title = document.createElement("h2");
   title.className = "card-title";
-  title.textContent = getTitle(series);
 
+  // creates the cover page
   const coverImg = document.createElement("img");
   coverImg.className = "card-cover";
   coverImg.src = series.coverImage.large;
-  coverImg.alt = `Cover page of ${title.textContent}`;
+  coverImg.alt = `Cover page of ${name}`;
 
+  // creates the scoring text
   const score = document.createElement("p");
   score.className = "card-score";
   score.textContent =
     series.averageScore > 0 ? `Score: ${series.averageScore}` : "No score yet";
 
+  // creates the manga status text
   const status = document.createElement("p");
   status.className = "card-status";
   status.textContent = series.status;
+
+  // creates the link to detail.html
+  const a = document.createElement("a");
+  a.href = `detail.html?id=${series.id}`;
+  a.textContent = name;
+  // appends the link to the heading/title
+  title.append(a);
 
   // appends new created element to list
   li.append(title, coverImg, score, status);
   return li;
 }
+
 // --- Turn the array into cards and put them in the results list ----
 function renderCards(mediaList) {
   const cards = mediaList.map((series) => createCard(series));
