@@ -1,17 +1,13 @@
 import { fetchManga } from "./api.js";
+import { getTitle, setStatus } from "./utils.js";
+
 // --- Page elements ----
 const form = document.querySelector("#search-form");
 const input = document.querySelector("#search-input");
-const statusEl = document.querySelector("#status");
 const resultsEl = document.querySelector("#results");
 const suggestionsEl = document.querySelector("#suggestions");
 
 let debounceTimer;
-
-// --- Puts a message in the status element ----
-function setStatus(message) {
-  statusEl.textContent = message;
-}
 
 // --- Creates card for the result ----
 function createCard(series) {
@@ -62,7 +58,7 @@ function renderCards(mediaList) {
   resultsEl.replaceChildren(...cards);
 }
 
-// --- Loads the output to user---
+// --- Loads the output to user ---
 async function loadManga(search) {
   setStatus("Loading...");
   resultsEl.replaceChildren();
@@ -83,7 +79,7 @@ async function loadManga(search) {
     setStatus(`Something went wrong: ${error.message}`);
   }
 }
-// --- loads title suggestions to user ---
+// --- Loads title suggestions to user ---
 async function loadSuggestions(text) {
   // if text is shorter than 2 characters -> clear the suggestions and return
   if (text.length < 2) {
@@ -108,10 +104,6 @@ async function loadSuggestions(text) {
   } catch (error) {
     suggestionsEl.replaceChildren();
   }
-}
-// --- Getter function for title ---
-function getTitle(series) {
-  return series.title.english || series.title.romaji;
 }
 
 // --- Input listener ---

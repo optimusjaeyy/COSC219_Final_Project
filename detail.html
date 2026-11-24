@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <!--Links main.js-->
+    <script type="module" src="js/detail.js"></script>
+    <!--Links styles.css-->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <a href="index.html">Return to Home Page</a>
+      <p id="status" role="status"></p>
+
+      <article id="detail" hidden>
+        <h1 id="detail-title"></h1>
+        <img id="detail-cover" alt="" />
+
+        <dl>
+          <!-- description list - container -->
+          <dt>Score</dt>
+          <!-- decription term - label -->
+          <dd id="detail-score"></dd>
+          <!-- description detail - value that belongs to a term -->
+          <dt>Original Language</dt>
+          <dd id="detail-language"></dd>
+          <dt>Status</dt>
+          <dd id="detail-status"></dd>
+          <dt>Chapters</dt>
+          <dd id="detail-chapters"></dd>
+          <dt>Genres</dt>
+          <dd id="detail-genres"></dd>
+        </dl>
+
+        <h2>Description</h2>
+        <p id="detail-description"></p>
+      </article>
+    </main>
+  </body>
+</html>
