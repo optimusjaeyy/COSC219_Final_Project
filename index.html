@@ -23,17 +23,25 @@
       <section class="container">
         <form id="search-form" role="search">
           <label for="search-input">Search for Manga, Manhwa, Manhua</label>
-          <input
-            type="search"
-            id="search-input"
-            name="search"
-            list="suggestions"
-            placeholder="e.g. Solo Leveling"
-          />
+
+          <div class="search-specs">
+            <input
+              type="search"
+              id="search-input"
+              name="search"
+              list="suggestions"
+              placeholder="e.g. Solo Leveling"
+            />
+            <button id="funnel">
+              <img href="img/filter.png" />
+            </button>
+            <button type="submit">Search</button>
+          </div>
+
           <datalist id="suggestions"></datalist>
 
           <!-- Filter section -->
-          <fieldset>
+          <fieldset hidden>
             <legend>Filters</legend>
 
             <!-- Type of Series filter -->
@@ -62,7 +70,7 @@
               <option value="">Any</option>
             </select>
           </fieldset>
-          <button type="submit">Search</button>
+
           <!-- Reset button for filter -->
           <button type="button" id="reset-filters">Reset filters</button>
         </form>

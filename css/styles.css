@@ -84,10 +84,28 @@ nav{
 }
 
 
-/*================== SEARCH BAR ==================*/
+/*================== SEARCH BAR, FILTER, & SUGGESTIONS ==================*/
 #search-input{
     font-size: 1em;
     padding: 0.2rem, 0.9rem;
+
+    width: 100%;
+    max-width: 40rem;
+
+
+}
+#search-input:focus{
+    border-radius: 5px;
+    border-color: var(--currentFocus);
+}
+
+.search-specs{
+    
+}
+
+#suggestions{
+    width: 100%;
+    max-width: 40rem;
 }
 
 /*================== BODY ==================*/
