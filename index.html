@@ -12,15 +12,15 @@
   <body>
     <!-- Added a header for heading 1 and pages links -->
     <header>
-      <h1 id="main-header">Manga Shelf</h1>
+      <h1 id="main-header" class="header-scroll">Manga Shelf</h1>
       <nav>
-        <a href="index.html">Browse</a>
-        <a href="shelf.html">My Shelves</a>
+        <a href="index.html" class="nav-link">Browse</a>
+        <a href="shelf.html" class="nav-link">My Shelves</a>
       </nav>
     </header>
 
     <main>
-      <section id="container">
+      <section class="container">
         <form id="search-form" role="search">
           <label for="search-input">Search for Manga, Manhwa, Manhua</label>
           <input
@@ -68,7 +68,7 @@
         </form>
       </section>
 
-      <div id="container">
+      <div class="container">
         <h2 id="results-heading">Results</h2>
         <p id="status" role="status"></p>
         <ul id="results" class="cards"></ul>
@@ -76,7 +76,7 @@
     </main>
 
     <!-- Footer page with API info link and GitHub repo link -->
-    <footer>
+    <footer id="main-footer">
       <p>
         Data from <a href="https://anilist.co">AniList</a>. Built by Jen Juanich
         and Reyan Ragual for COSC 219 Final Project.

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Geist+Pixel|Bitcount+Prop+Double'); 
 
+/* With numerous challenges and conflicting size and color variables,
+ Claude was used to help identify any overlooked bug.
+*/
+
 *, *::before, *::after{ box-sizing: border-box;}
 
 main {
@@ -31,9 +35,9 @@ main {
     "ELXP" 0;
     font-size: 3em;
 
-    text-shadow: 0 0 5px #86042f, 0 0 15px #efabc3, 0 0 25px #d5084c;
+    text-shadow: 0 0 5px #86042f, 0 0 15px #f3c2d3, 0 0 25px #d5084c;
     text-align: center;
-    color: #fff4f8;
+    color: #edbcce;
 }
 #subheader {
     font-family: 'Bitcount Prop Double', monospace;
@@ -44,10 +48,47 @@ main {
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
-#top{
+
+
+/*================== NAV BAR ==================*/
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
     
+    flex-direction: if(media(width < 700px):column;else:row);
+    flex-wrap: if(media(width < 700px):wrap;else:nowrap);
 }
 
+.nav-link {
+    text-decoration: none;
+    text-align: center;
+    background-color: #db3434ce;
+    color: white;
+
+    width: 150px;
+    padding: 0.777em;
+    border-radius: 5px;
+    margin: 0 10px;
+
+    font-size: 1em;
+
+}
+
+.nav-link:hover {
+    background-color: #e53838;
+    box-shadow: 0 0 5px #ef0c39, 0 0 25px #f0dce3, 0 0 35px #ef0c39;
+    font-weight: bolder;
+}
+
+
+/*================== SEARCH BAR ==================*/
+#search-input{
+    font-size: 1em;
+    padding: 0.2rem, 0.9rem;
+}
 
 /*================== BODY ==================*/
 
@@ -75,7 +116,7 @@ body {
 
 
 /*================== CONTAINERS ==================*/
-#container {
+.container {
     width: 85vw;
     align-self: center;
     background-color: #3e3e3e3d;
@@ -88,17 +129,6 @@ body {
     flex-direction: column;
     justify-self: center;
     align-items: center;
-}
-#subcontainer {
-    width: 85%;
-    margin: 1rem;
-    background-color: #ffffff7e;
-    color: rgb(0, 0, 0);
-    padding: 5vw;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
-    list-style: none;
 }
 
 
@@ -123,19 +153,48 @@ body {
 
 .card{
     background-color: #1423277e;
-    color: #dddddd;
+    color: #89b8d8;
     padding: 0.75rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-.card:hover{
 
+    /*  problem:    img wouldn't be centered
+        solution:   made the card a column */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.card-title{
-    font-size: 1rem;
-    text-align: center;
-    text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
-}
+    /*================== CARD TITLE STUFF ==================*/
+    .card-title{
+        font-size: 0.9rem;
+
+        text-align: center;
+        text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3;
+    }
+    .card-title a{
+        min-height: 2.5em;
+        text-decoration: none;
+        color: #c1b3f9;
+
+        /* had to look up "-webkit-line-clamp" for this*/
+        display: -webkit-box;
+        -webkit-box-orient: vertical; /*limits text to whatever vertical height indicated on line-clamp*/
+        -webkit-line-clamp: 3;
+        overflow: hidden; /*hidden with an ellipses*/
+    }
+    .card-title a:hover{
+        color: #e1dcf1;
+        text-decoration: none;
+        text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
+    }
+    /*============*/
+
 .card-cover{
     width: 90%;
+    aspect-ratio: 2 / 3; /*height is calculated automatically*/
+    object-fit: cover;
 }
+
+
+/*================== FOOTER ==================*/

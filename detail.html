@@ -10,29 +10,34 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <main>
-      <a href="index.html">Return to Home Page</a>
+    <main class="container">
+      <a href="index.html" class="nav-link">Return to Home Page</a>
       <p id="status" role="status"></p>
 
       <article id="detail" hidden>
         <h1 id="detail-title"></h1>
-        <img id="detail-cover" alt="" />
 
-        <dl>
-          <!-- description list - container -->
-          <dt>Score</dt>
-          <!-- decription term - label -->
-          <dd id="detail-score"></dd>
-          <!-- description detail - value that belongs to a term -->
-          <dt>Original Language</dt>
-          <dd id="detail-language"></dd>
-          <dt>Status</dt>
-          <dd id="detail-status"></dd>
-          <dt>Chapters</dt>
-          <dd id="detail-chapters"></dd>
-          <dt>Genres</dt>
-          <dd id="detail-genres"></dd>
-        </dl>
+        <div>
+          <!-- desired outcome: cover on the left, 
+             score up to genre on the right of cover -->
+
+          <img id="detail-cover" alt="" />
+          <dl>
+            <!-- description list - container -->
+            <dt>Score</dt>
+            <!-- decription term - label -->
+            <dd id="detail-score"></dd>
+            <!-- description detail - value that belongs to a term -->
+            <dt>Original Language</dt>
+            <dd id="detail-language"></dd>
+            <dt>Status</dt>
+            <dd id="detail-status"></dd>
+            <dt>Chapters</dt>
+            <dd id="detail-chapters"></dd>
+            <dt>Genres</dt>
+            <dd id="detail-genres"></dd>
+          </dl>
+        </div>
 
         <h2>Description</h2>
         <p id="detail-description"></p>
