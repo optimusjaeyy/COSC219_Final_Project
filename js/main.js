@@ -10,6 +10,8 @@ const genreSelect = document.querySelector("#genre-filter");
 const countrySelect = document.querySelector("#country-filter");
 const statusSelect = document.querySelector("#status-filter");
 const resetButton = document.querySelector("#reset-filters");
+const filterToggle = document.querySelector("#filter-toggle");
+const filtersPanel = document.querySelector("#filters");
 let debounceTimer;
 
 // --- Creates card for the result ----
@@ -151,6 +153,12 @@ resetButton.addEventListener("click", () => {
   suggestionsEl.replaceChildren();
   loadManga();
 });
+
+// --- Filter toggle listener ---
+filterToggle.addEventListener("click", () => {
+  filtersPanel.hidden = !filtersPanel.hidden;
+  filterToggle.setAttribute("aria-expanded", String(!filtersPanel.hidden));
+})
 
 // --- Filter change listener ---
 form.addEventListener("change", (event) => {

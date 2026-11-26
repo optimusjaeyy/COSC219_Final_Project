@@ -87,26 +87,38 @@ nav{
 /*================== SEARCH BAR, FILTER, & SUGGESTIONS ==================*/
 #search-input{
     font-size: 1em;
-    padding: 0.2rem, 0.9rem;
+    padding: 0.2rem 0.9rem;
 
     width: 100%;
-    max-width: 40rem;
-
 
 }
 #search-input:focus{
-    border-radius: 5px;
     border-color: var(--currentFocus);
 }
 
 .search-specs{
-    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #suggestions{
     width: 100%;
     max-width: 40rem;
 }
+
+#filter-toggle{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+#funnel{
+    height: 0.8rem;
+}
+
+/* #submit-button{
+
+} */
 
 /*================== BODY ==================*/
 
@@ -198,6 +210,7 @@ body {
         /* had to look up "-webkit-line-clamp" for this*/
         display: -webkit-box;
         -webkit-box-orient: vertical; /*limits text to whatever vertical height indicated on line-clamp*/
+        line-clamp: 3;
         -webkit-line-clamp: 3;
         overflow: hidden; /*hidden with an ellipses*/
     }
