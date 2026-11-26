@@ -15,14 +15,30 @@ main {
 
 :root{
     --currentFocus: #19cabe;
-    --submitColor: #a92837;
-    --space: 10px 10px;
 
 }
 
 
 /*================== HEADERS & SUBHEADERS ==================*/
+header.site-header{
+    width: 85vw;
+    background-color: black;
+    border-radius: 8px;
 
+    margin-bottom: 3rem;
+    margin-inline: auto;
+    padding: 0.5rem 4vw;
+
+    align-self: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 
 #header-text {
     font-family: 'Bitcount Prop Double', monospace;
@@ -35,6 +51,8 @@ main {
     "ELSH" 0,
     "ELXP" 0;
     font-size: 3em;
+
+    margin: 0;
 
     text-shadow: 0 0 5px #86042f, 0 0 15px #f3c2d3, 0 0 25px #d5084c;
     text-align: center;
@@ -50,6 +68,27 @@ main {
     margin-bottom: 20px;
 }
 
+
+/*================== SCROLL ANIMATION ==================*/
+/*references:   https://theosoti.com/blog/scroll-driven-animation/ 
+                https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@supports
+*/
+
+@supports (animation-timeline: scroll()){
+    @keyframes slide-left   { to {transform: translateX(-16vw);}}
+    @keyframes slide-right  { to {transform: translateX(16vw);}}
+
+    .header-scroll{
+        animation: slide-left linear forwards;
+        animation-timeline: scroll(root);
+        animation-range: 0 100px;
+    }
+    .site-header nav{
+        animation: slide-right linear forwards;
+        animation-timeline: scroll(root);
+        animation-range: 0 100px;
+    }
+}
 
 /*================== NAV BAR ==================*/
 
@@ -107,17 +146,23 @@ nav{
 #filter-toggle{
     background-color: transparent;
     border-color: transparent;
+    padding: 0.25rem;
+}
+#filter-toggle:hover{
+    box-shadow: 0 0 5px var(--currentFocus), 0 0 15px #88f1f3, 0 0 25px var(--currentFocus);
 }
 
 #funnel{
-    height: 0.8rem;
-}
-#funnel:hover{
-    box-shadow: 0 0 5px var(--currentFocus), 0 0 15px #88f1f3, 0 0 25px var(--currentFocus);
+    height: 0.9rem;
 }
 
 #submit-button{
     align-items: stretch;
+}
+#submit-button:hover{
+    background-color: #e53838;
+    box-shadow: 0 0 5px #ef0c39, 0 0 15px #f0dce3, 0 0 25px #ef0c39;
+    font-weight: bolder;
 }
 
 /*================== BODY ==================*/
@@ -126,7 +171,7 @@ body {
     font-family: 'Geist Pixel', sans-serif;
     font-weight: bolder;
     font-size: 1em;
-    color: #333;
+    color: #d1a1e2;
     line-height: 1.6;
     margin: 20px;
     align-self: center;
@@ -146,6 +191,7 @@ body {
 
 
 /*================== CONTAINERS ==================*/
+/*basis for header & footer*/
 .container {
     width: 85vw;
     align-self: center;
@@ -228,4 +274,20 @@ body {
 }
 
 
+/*================== SMALL SCREENS ==================*/
+@media (max-width: 700px) {
+    .site-header{ flex-direction: column;}
+    .header-scroll, .site-header nav { animation: none; }
+}
+
+
 /*================== FOOTER ==================*/
+footer{
+    width: 85vw;
+    margin-inline: auto;
+    background-color: black;
+    border-radius: 8px;
+    margin-top: 3rem;
+    padding: 2vw 4vw;
+}
+
