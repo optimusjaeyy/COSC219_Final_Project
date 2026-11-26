@@ -2,6 +2,11 @@
 
 /* With numerous challenges and conflicting size and color variables,
  Claude was used to help identify any overlooked bug.
+
+ notes:
+
+    - vw    = viewport width = 1vw = 1% of vw
+    - rem   = root em = 1rem || 16px (base font size)
 */
 
 *, *::before, *::after{ box-sizing: border-box;}
@@ -45,12 +50,15 @@ header.site-header{
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
+
+    font-size: clamp(1.5rem, 4vw, 3rem); /*clamp(min-size, pref-size, max-size)*/
+    white-space: nowrap;
+
     font-variation-settings:
     "slnt" 0,
     "CRSV" 0.5,
     "ELSH" 0,
     "ELXP" 0;
-    font-size: 3em;
 
     margin: 0;
 
@@ -69,14 +77,16 @@ header.site-header{
 }
 
 
+
+
 /*================== SCROLL ANIMATION ==================*/
 /*references:   https://theosoti.com/blog/scroll-driven-animation/ 
                 https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@supports
 */
 
 @supports (animation-timeline: scroll()){
-    @keyframes slide-left   { to {transform: translateX(-16vw);}}
-    @keyframes slide-right  { to {transform: translateX(16vw);}}
+    @keyframes slide-left   { to {transform: translateX(calc(-1 * clamp(4vw, 12vw, 16vw)));}}
+    @keyframes slide-right  { to {transform: translateX(clamp(4vw, 8vw, 16vw));}}
 
     .header-scroll{
         animation: slide-left linear forwards;
@@ -108,7 +118,7 @@ nav{
     background-color: #db3434ce;
     color: white;
 
-    width: 150px;
+    width: auto;
     padding: 0.777em;
     border-radius: 5px;
     margin: 0 10px;
@@ -249,7 +259,7 @@ body {
         text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3;
     }
     .card-title a{
-        min-height: 2.5em;
+        min-height: 3em;
         text-decoration: none;
         color: #c1b3f9;
 
