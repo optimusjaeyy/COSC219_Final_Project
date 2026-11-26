@@ -23,7 +23,8 @@ main {
 
 /*================== HEADERS & SUBHEADERS ==================*/
 
-#main-header {
+
+#header-text {
     font-family: 'Bitcount Prop Double', monospace;
     font-optical-sizing: auto;
     font-weight: 300;
@@ -39,7 +40,7 @@ main {
     text-align: center;
     color: #edbcce;
 }
-#subheader {
+#subheader-text {
     font-family: 'Bitcount Prop Double', monospace;
     font-size: 2em;
     text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
@@ -79,7 +80,7 @@ nav{
 
 .nav-link:hover {
     background-color: #e53838;
-    box-shadow: 0 0 5px #ef0c39, 0 0 25px #f0dce3, 0 0 35px #ef0c39;
+    box-shadow: 0 0 5px #ef0c39, 0 0 15px #f0dce3, 0 0 25px #ef0c39;
     font-weight: bolder;
 }
 
@@ -99,12 +100,8 @@ nav{
 .search-specs{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-#suggestions{
-    width: 100%;
-    max-width: 40rem;
+    align-items: stretch;
+    gap: 1rem;
 }
 
 #filter-toggle{
@@ -115,10 +112,13 @@ nav{
 #funnel{
     height: 0.8rem;
 }
+#funnel:hover{
+    box-shadow: 0 0 5px var(--currentFocus), 0 0 15px #88f1f3, 0 0 25px var(--currentFocus);
+}
 
-/* #submit-button{
-
-} */
+#submit-button{
+    align-items: stretch;
+}
 
 /*================== BODY ==================*/
 
