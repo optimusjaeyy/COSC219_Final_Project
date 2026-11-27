@@ -1,6 +1,6 @@
 import { fetchManga, fetchGenres, EXCLUDED_GENRES } from "./api.js";
 import { getTitle, setStatus } from "./utils.js";
-import { findShelf, SHELF_NAMES } from "./storage.js";
+import { findShelf } from "./storage.js";
 
 // --- Page elements ----
 const form = document.querySelector("#search-form");

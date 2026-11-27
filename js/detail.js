@@ -50,7 +50,13 @@ function renderDetail(series) {
 
   seriesStatusEl.textContent = series.status;
 
-  chaptersEl.textContent = series.chapters ?? "Unknown";
+  if (series.chapters != null) {
+    chaptersEl.textContent = series.chapters;
+  } else if (series.status === "RELEASING") {
+    chaptersEl.textContent = "Ongoing";
+  } else {
+    chaptersEl.textContent = "Not listed";
+  }
 
   genresEl.textContent = series.genres.length
     ? series.genres.join(", ")
