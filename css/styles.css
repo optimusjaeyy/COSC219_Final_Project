@@ -2,6 +2,11 @@
 
 /* With numerous challenges and conflicting size and color variables,
  Claude was used to help identify any overlooked bug.
+
+ notes:
+
+    - vw    = viewport width = 1vw = 1% of vw
+    - rem   = root em = 1rem || 16px (base font size)
 */
 
 *, *::before, *::after{ box-sizing: border-box;}
@@ -15,31 +20,54 @@ main {
 
 :root{
     --currentFocus: #19cabe;
-    --submitColor: #a92837;
-    --space: 10px 10px;
 
 }
 
 
 /*================== HEADERS & SUBHEADERS ==================*/
+header.site-header{
+    width: 85vw;
+    background-color: black;
+    border-radius: 8px;
 
-#main-header {
+    margin-bottom: 3rem;
+    margin-inline: auto;
+    padding: 0.5rem 4vw;
+
+    align-self: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#header-text {
     font-family: 'Bitcount Prop Double', monospace;
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
+
+    font-size: clamp(1.5rem, 4vw, 3rem); /*clamp(min-size, pref-size, max-size)*/
+    white-space: nowrap;
+
     font-variation-settings:
     "slnt" 0,
     "CRSV" 0.5,
     "ELSH" 0,
     "ELXP" 0;
-    font-size: 3em;
+
+    margin: 0;
 
     text-shadow: 0 0 5px #86042f, 0 0 15px #f3c2d3, 0 0 25px #d5084c;
     text-align: center;
     color: #edbcce;
 }
-#subheader {
+
+/* #subheader-text {
     font-family: 'Bitcount Prop Double', monospace;
     font-size: 2em;
     text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
@@ -47,8 +75,31 @@ main {
     color: #fff4f8;
     padding-bottom: 10px;
     margin-bottom: 20px;
-}
+} */
 
+
+
+
+/*================== SCROLL ANIMATION ==================*/
+/*references:   https://theosoti.com/blog/scroll-driven-animation/ 
+                https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@supports
+*/
+
+@supports (animation-timeline: scroll()){
+    @keyframes slide-left   { to {transform: translateX(calc(-1 * clamp(4vw, 12vw, 16vw)));}}
+    @keyframes slide-right  { to {transform: translateX(clamp(4vw, 8vw, 16vw));}}
+
+    .header-scroll{
+        animation: slide-left linear forwards;
+        animation-timeline: scroll(root);
+        animation-range: 0 100px;
+    }
+    .site-header nav{
+        animation: slide-right linear forwards;
+        animation-timeline: scroll(root);
+        animation-range: 0 100px;
+    }
+}
 
 /*================== NAV BAR ==================*/
 
@@ -68,7 +119,7 @@ nav{
     background-color: #db3434ce;
     color: white;
 
-    width: 150px;
+    width: auto;
     padding: 0.777em;
     border-radius: 5px;
     margin: 0 10px;
@@ -79,7 +130,7 @@ nav{
 
 .nav-link:hover {
     background-color: #e53838;
-    box-shadow: 0 0 5px #ef0c39, 0 0 25px #f0dce3, 0 0 35px #ef0c39;
+    box-shadow: 0 0 5px #ef0c39, 0 0 15px #f0dce3, 0 0 25px #ef0c39;
     font-weight: bolder;
 }
 
@@ -87,25 +138,42 @@ nav{
 /*================== SEARCH BAR, FILTER, & SUGGESTIONS ==================*/
 #search-input{
     font-size: 1em;
-    padding: 0.2rem, 0.9rem;
+    padding: 0.2rem 0.9rem;
 
     width: 100%;
-    max-width: 40rem;
-
 
 }
 #search-input:focus{
-    border-radius: 5px;
     border-color: var(--currentFocus);
 }
 
 .search-specs{
-    
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
 }
 
-#suggestions{
-    width: 100%;
-    max-width: 40rem;
+#filter-toggle{
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0.25rem;
+}
+#filter-toggle:hover{
+    box-shadow: 0 0 5px var(--currentFocus), 0 0 15px #88f1f3, 0 0 25px var(--currentFocus);
+}
+
+#funnel{
+    height: 0.9rem;
+}
+
+#submit-button{
+    align-items: stretch;
+}
+#submit-button:hover{
+    background-color: #e53838;
+    box-shadow: 0 0 5px #ef0c39, 0 0 15px #f0dce3, 0 0 25px #ef0c39;
+    font-weight: bolder;
 }
 
 /*================== BODY ==================*/
@@ -114,7 +182,7 @@ body {
     font-family: 'Geist Pixel', sans-serif;
     font-weight: bolder;
     font-size: 1em;
-    color: #333;
+    color: #d1a1e2;
     line-height: 1.6;
     margin: 20px;
     align-self: center;
@@ -132,8 +200,8 @@ body {
     100%{ background-position: 0% 50%;}
 }
 
-
 /*================== CONTAINERS ==================*/
+/*basis for header & footer*/
 .container {
     width: 85vw;
     align-self: center;
@@ -191,13 +259,14 @@ body {
         text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3;
     }
     .card-title a{
-        min-height: 2.5em;
+        min-height: 3em;
         text-decoration: none;
         color: #c1b3f9;
 
         /* had to look up "-webkit-line-clamp" for this*/
         display: -webkit-box;
         -webkit-box-orient: vertical; /*limits text to whatever vertical height indicated on line-clamp*/
+        line-clamp: 3;
         -webkit-line-clamp: 3;
         overflow: hidden; /*hidden with an ellipses*/
     }
@@ -215,4 +284,39 @@ body {
 }
 
 
+/*================== SMALL SCREENS ==================*/
+@media (max-width: 700px) {
+    .site-header{ flex-direction: column;}
+    .header-scroll, .site-header nav { animation: none; }
+}
+
+/*================== DETAIL STUFF ==================*/
+
+.detail-layout{
+    display: grid;
+    grid-template-columns: minmax(10rem, 15rem) 1fr;
+
+    margin-left: 5vw;
+}
+
+#detail-title{
+    justify-self: center;
+}
+
+dl{
+    margin-left: 2vh;
+}
+dl dd{
+    padding-bottom: 1.5vw;
+}
+
 /*================== FOOTER ==================*/
+footer{
+    width: 85vw;
+    margin-inline: auto;
+    background-color: black;
+    border-radius: 8px;
+    margin-top: 3rem;
+    padding: 2vw 4vw;
+}
+

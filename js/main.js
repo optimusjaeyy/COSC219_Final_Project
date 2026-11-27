@@ -16,11 +16,6 @@ const genreSelect = document.querySelector("#genre-filter");
 const countrySelect = document.querySelector("#country-filter");
 const statusSelect = document.querySelector("#status-filter");
 const resetButton = document.querySelector("#reset-filters");
-const shelfStatusEl = document.querySelector("#shelf-status");
-
-// --- Remembers each loaded series by id, so the change listener
-// can get the full series object that addToShelf needs ---
-const loadedSeries = new Map();
 let debounceTimer;
 
 // --- Creates card for the result ----
@@ -196,6 +191,12 @@ resetButton.addEventListener("click", () => {
   clearTimeout(debounceTimer);
   suggestionsEl.replaceChildren();
   loadManga();
+});
+
+// --- Filter toggle listener ---
+filterToggle.addEventListener("click", () => {
+  filtersPanel.hidden = !filtersPanel.hidden;
+  filterToggle.setAttribute("aria-expanded", String(!filtersPanel.hidden));
 });
 
 // --- Filter change listener ---
