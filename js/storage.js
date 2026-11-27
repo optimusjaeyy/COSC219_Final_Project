@@ -12,8 +12,12 @@ function emptyShelves() {
   return Object.fromEntries(SHELF_NAMES.map((name) => [name, []]));
 }
 
-// Reads the shelves from localStorage and always returns
-// a usable object
+// An entry is valid only if it is an object with a numeric id
+const isEntry = (entry) =>
+  entry && typeof entry === "object" && Number.isInteger(entry.id);
+
+// Reads the shelves from localStorage and ALWAYS returns a usable object.
+// Bad JSON resets everything, and a bad shelf or bad entry is dropped.
 export function loadShelves() {
   try {
     const raw = localStorage.getItem(SHELVES_KEY);
@@ -22,7 +26,9 @@ export function loadShelves() {
     const data = JSON.parse(raw);
     const shelves = emptyShelves();
     SHELF_NAMES.forEach((name) => {
-      if (Array.isArray(data?.[name])) shelves[name] = data[name];
+      if (Array.isArray(data?.[name])) {
+        shelves[name] = data[name].filter(isEntry);
+      }
     });
     return shelves;
   } catch (error) {
