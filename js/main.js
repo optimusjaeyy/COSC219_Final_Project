@@ -16,6 +16,10 @@ const genreSelect = document.querySelector("#genre-filter");
 const countrySelect = document.querySelector("#country-filter");
 const statusSelect = document.querySelector("#status-filter");
 const resetButton = document.querySelector("#reset-filters");
+const shelfStatusEl = document.querySelector("#shelf-status");
+const filterToggle = document.querySelector("#filter-toggle");
+const filtersPanel = document.querySelector("#filters");
+const loadedSeries = new Map();
 let debounceTimer;
 
 // --- Creates card for the result ----
