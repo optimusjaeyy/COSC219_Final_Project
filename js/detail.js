@@ -1,6 +1,11 @@
 import { fetchMangaById } from "./api.js";
 import { getTitle, setStatus } from "./utils.js";
-
+import {
+  addToShelf,
+  removeFromShelf,
+  findShelf,
+  SHELF_NAMES,
+} from "./storage.js";
 // ----  Page elements ----
 const detailEl = document.querySelector("#detail");
 const titleEl = document.querySelector("#detail-title");
@@ -11,6 +16,11 @@ const seriesStatusEl = document.querySelector("#detail-status");
 const chaptersEl = document.querySelector("#detail-chapters");
 const genresEl = document.querySelector("#detail-genres");
 const descriptionEl = document.querySelector("#detail-description");
+// Shelf elements
+const shelfSection = document.querySelector("#shelf-section");
+const shelfSelect = document.querySelector("#shelf-select");
+const shelfStatusEl = document.querySelector("#shelf-status");
+let currentSeries = null; // will set once the series has loaded
 
 // ---- Read the id from the URL ----
 const params = new URLSearchParams(location.search);
@@ -40,7 +50,13 @@ function renderDetail(series) {
 
   seriesStatusEl.textContent = series.status;
 
-  chaptersEl.textContent = series.chapters ?? "Unknown";
+  if (series.chapters != null) {
+    chaptersEl.textContent = series.chapters;
+  } else if (series.status === "RELEASING") {
+    chaptersEl.textContent = "Ongoing";
+  } else {
+    chaptersEl.textContent = "Not listed";
+  }
 
   genresEl.textContent = series.genres.length
     ? series.genres.join(", ")
@@ -60,6 +76,8 @@ async function loadDetail() {
   try {
     const series = await fetchMangaById(id);
     renderDetail(series);
+    currentSeries = series;
+    renderShelfControl(series);
     detailEl.hidden = false; // show the article
     setStatus(""); // clear "Loading..."
   } catch (error) {
@@ -67,5 +85,45 @@ async function loadDetail() {
     setStatus(`Something went wrong: ${error.message}`);
   }
 }
+function renderShelfControl(series) {
+  const none = document.createElement("option");
+  none.value = "";
+  none.textContent = "Not saved";
+
+  // One option per shelf
+  const options = SHELF_NAMES.map((name) => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    return option;
+  });
+
+  shelfSelect.append(none, ...options);
+  shelfSelect.value = findShelf(series.id) ?? "";
+  shelfSection.hidden = false;
+}
+
+shelfSelect.addEventListener("change", () => {
+  if (currentSeries === null) return;
+
+  const chosen = shelfSelect.value;
+
+  // "" means "Not saved", so remove. Otherwise save to the chosen shelf.
+  const saved =
+    chosen === ""
+      ? removeFromShelf(currentSeries.id)
+      : addToShelf(chosen, currentSeries);
+
+  if (!saved) {
+    // put the dropdown back to what is actually stored
+    shelfSelect.value = findShelf(currentSeries.id) ?? "";
+    shelfStatusEl.textContent =
+      "Couldn't save. Storage may be full or blocked.";
+    return;
+  }
+
+  shelfStatusEl.textContent =
+    chosen === "" ? "Removed from your shelves." : `Saved to ${chosen}.`;
+});
 
 loadDetail();

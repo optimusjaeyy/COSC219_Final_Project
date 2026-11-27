@@ -1,11 +1,6 @@
 import { fetchManga, fetchGenres, EXCLUDED_GENRES } from "./api.js";
 import { getTitle, setStatus } from "./utils.js";
-import {
-  addToShelf,
-  removeFromShelf,
-  findShelf,
-  SHELF_NAMES,
-} from "./storage.js";
+import { findShelf } from "./storage.js";
 
 // --- Page elements ----
 const form = document.querySelector("#search-form");
@@ -16,10 +11,9 @@ const genreSelect = document.querySelector("#genre-filter");
 const countrySelect = document.querySelector("#country-filter");
 const statusSelect = document.querySelector("#status-filter");
 const resetButton = document.querySelector("#reset-filters");
-const shelfStatusEl = document.querySelector("#shelf-status");
 const filterToggle = document.querySelector("#filter-toggle");
 const filtersPanel = document.querySelector("#filters");
-const loadedSeries = new Map();
+
 let debounceTimer;
 
 // --- Creates card for the result ----
@@ -61,13 +55,22 @@ function createCard(series) {
   title.append(a);
 
   // appends new created element to list
-  li.append(title, coverImg, score, status, createShelfControl(series));
+  li.append(title, coverImg);
+
+  const shelf = findShelf(series.id); // "Reading", or null
+  if (shelf !== null) {
+    const badge = document.createElement("p");
+    badge.className = "card-shelf";
+    badge.textContent = `On shelf: ${shelf}`;
+    li.append(badge);
+  }
+  // appends new created element to list
+  li.append(score, status);
   return li;
 }
 
 // --- Turn the array into cards and put them in the results list ----
 function renderCards(mediaList) {
-  mediaList.forEach((series) => loadedSeries.set(series.id, series));
   const cards = mediaList.map((series) => createCard(series));
   resultsEl.replaceChildren(...cards);
 }
@@ -80,40 +83,6 @@ function getFilters() {
     status: statusSelect.value || undefined,
     genre: genreSelect.value || undefined,
   };
-}
-
-function createShelfControl(series) {
-  const label = document.createElement("label");
-  label.className = "visually-hidden";
-  label.htmlFor = `shelf-${series.id}`;
-  label.textContent = `Shelf for ${getTitle(series)}`;
-
-  const select = document.createElement("select");
-  select.className = "shelf-select";
-  select.id = `shelf-${series.id}`;
-
-  // First option means "not on any shelf"
-  const none = document.createElement("option");
-  none.value = "";
-  none.textContent = "Not saved";
-
-  // One option per shelf
-  const options = SHELF_NAMES.map((name) => {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = name;
-    return option;
-  });
-
-  select.append(none, ...options);
-
-  // show where this series is currently saved ("" if nowhere)
-  select.value = findShelf(series.id) ?? "";
-
-  const wrapper = document.createElement("div");
-  wrapper.className = "shelf-control";
-  wrapper.append(label, select);
-  return wrapper;
 }
 
 // --- Loads the output to user ---
@@ -208,37 +177,6 @@ form.addEventListener("change", (event) => {
   if (event.target.matches("select")) {
     loadManga();
   }
-});
-
-// --- Saves or removes a series when a card's shelf
-// dropdown changes ---
-resultsEl.addEventListener("change", (event) => {
-  const select = event.target;
-  if (!select.matches(".shelf-select")) return;
-
-  const card = select.closest(".card");
-  const series = loadedSeries.get(Number(card.dataset.id));
-  if (!series) return;
-
-  const name = getTitle(series);
-
-  // "" means "Not saved", so remove. Otherwise save to the chosen shelf.
-  const saved =
-    select.value === ""
-      ? removeFromShelf(series.id)
-      : addToShelf(select.value, series);
-
-  if (!saved) {
-    // put the dropdown back to what is actually stored
-    select.value = findShelf(series.id) ?? "";
-    shelfStatusEl.textContent = `Couldn't save "${name}". Storage may be full or blocked.`;
-    return;
-  }
-
-  shelfStatusEl.textContent =
-    select.value === ""
-      ? `Removed "${name}" from your shelves.`
-      : `Saved "${name}" to ${select.value}.`;
 });
 
 // --- Input listener ---
