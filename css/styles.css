@@ -26,8 +26,8 @@ main {
 
 /*================== HEADERS & SUBHEADERS ==================*/
 header.site-header{
-    width: 85vw;
-    background-color: black;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.453);
     border-radius: 8px;
 
     margin-bottom: 3rem;
@@ -38,11 +38,11 @@ header.site-header{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 40rem;
 
-    position: sticky;
+    /* position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 10; */
 }
 
 #header-text {
@@ -51,7 +51,7 @@ header.site-header{
     font-weight: 300;
     font-style: normal;
 
-    font-size: clamp(1.5rem, 4vw, 3rem); /*clamp(min-size, pref-size, max-size)*/
+    font-size: clamp(1.75rem, 4vw, 3rem); /*clamp(min-size, pref-size, max-size)*/
     white-space: nowrap;
 
     font-variation-settings:
@@ -62,9 +62,9 @@ header.site-header{
 
     margin: 0;
 
-    text-shadow: 0 0 5px #86042f, 0 0 15px #f3c2d3, 0 0 25px #d5084c;
+    text-shadow: 0 0 5px #048661, 0 0 15px #c2f3e8, 0 0 25px #048661;
     text-align: center;
-    color: #edbcce;
+    color: #bceddb;
 }
 
 /* #subheader-text {
@@ -86,8 +86,8 @@ header.site-header{
 */
 
 @supports (animation-timeline: scroll()){
-    @keyframes slide-left   { to {transform: translateX(calc(-1 * clamp(4vw, 12vw, 16vw)));}}
-    @keyframes slide-right  { to {transform: translateX(clamp(4vw, 8vw, 16vw));}}
+    @keyframes slide-left   { to {transform: translateX(calc(-1 * clamp(8vw, 12vw, 16vw)));}}
+    @keyframes slide-right  { to {transform: translateX(clamp(8vw, 12vw, 16vw));}}
 
     .header-scroll{
         animation: slide-left linear forwards;
@@ -116,7 +116,7 @@ nav{
 .nav-link {
     text-decoration: none;
     text-align: center;
-    background-color: #db3434ce;
+    background-color: #a668edce;
     color: white;
 
     width: auto;
@@ -129,22 +129,30 @@ nav{
 }
 
 .nav-link:hover {
-    background-color: #e53838;
-    box-shadow: 0 0 5px #ef0c39, 0 0 15px #f0dce3, 0 0 25px #ef0c39;
+    background-color: #ae38e5;
+    box-shadow: 0 0 5px #ae38e5, 0 0 15px #f0dce3, 0 0 25px #ae38e5;
     font-weight: bolder;
 }
 
 
 /*================== SEARCH BAR, FILTER, & SUGGESTIONS ==================*/
+[id^="search-"]{ /**/
+    font-family: 'Geist Pixel', sans-serif;
+}
 #search-input{
     font-size: 1em;
     padding: 0.2rem 0.9rem;
 
-    width: 100%;
+    width: 40vw;
 
 }
 #search-input:focus{
     border-color: var(--currentFocus);
+    box-shadow: 0 0 5px var(--currentFocus), 0 0 10px #88f1f3, 0 0 15px var(--currentFocus);    
+}
+#search-label{
+    text-align: center;
+    font-size: 1.5em;
 }
 
 .search-specs{
@@ -169,10 +177,11 @@ nav{
 
 #submit-button{
     align-items: stretch;
+    font-family: 'Geist Pixel', sans-serif;
 }
 #submit-button:hover{
-    background-color: #e53838;
-    box-shadow: 0 0 5px #ef0c39, 0 0 15px #f0dce3, 0 0 25px #ef0c39;
+    background-color: #38cee5;
+    box-shadow: 0 0 5px #0cefef, 0 0 15px #dcedf0, 0 0 25px #0cefef;
     font-weight: bolder;
 }
 
@@ -184,7 +193,7 @@ body {
     font-size: 1em;
     color: #d1a1e2;
     line-height: 1.6;
-    margin: 20px;
+    margin: 0 2rem;
     align-self: center;
     justify-self: center;
 
@@ -227,6 +236,13 @@ body {
     padding: 0;
     margin: 0;
 }
+#results-heading{
+    margin-bottom: 0.5rem;
+}
+#status{
+    margin-top: 0.5rem;
+}
+
 @media (min-width: 38rem) {
     #results { grid-template-columns: repeat(3, 1fr); }
 }
@@ -310,9 +326,16 @@ dl dd{
     padding-bottom: 1.5vw;
 }
 
+
+/*================== SHELF STUFF ==================*/
+.shelf-list{
+    display: flex;
+    gap: 1rem;
+}
+
 /*================== FOOTER ==================*/
 footer{
-    width: 85vw;
+    width: 100vw;
     margin-inline: auto;
     background-color: black;
     border-radius: 8px;

@@ -34,7 +34,7 @@ function renderDetail(series) {
   coverEl.alt = `Cover page of ${name}`;
 
   scoreEl.textContent =
-    series.average > 0 ? `${series.averageScore} / 100` : "No score available";
+    series.averageScore > 0 ? `${series.averageScore} / 100` : "No score available";
 
   languageEl.textContent = LANGUAGES[series.countryOfOrigin] ?? "Unknown";
 
