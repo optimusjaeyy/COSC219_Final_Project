@@ -55,7 +55,17 @@ function createCard(series) {
   title.append(a);
 
   // appends new created element to list
-  li.append(title, coverImg, score, status);
+  li.append(title, coverImg);
+
+  const shelf = findShelf(series.id); // "Reading", or null
+  if (shelf !== null) {
+    const badge = document.createElement("p");
+    badge.className = "card-shelf";
+    badge.textContent = `On shelf: ${shelf}`;
+    li.append(badge);
+  }
+  // appends new created element to list
+  li.append(score, status);
   return li;
 }
 
