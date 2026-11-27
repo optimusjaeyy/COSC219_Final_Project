@@ -66,7 +66,8 @@ header.site-header{
     text-align: center;
     color: #edbcce;
 }
-#subheader-text {
+
+/* #subheader-text {
     font-family: 'Bitcount Prop Double', monospace;
     font-size: 2em;
     text-shadow: 0 0 5px #6304a1, 0 0 15px #f0dce3, 0 0 25px #940cef;
@@ -74,7 +75,7 @@ header.site-header{
     color: #fff4f8;
     padding-bottom: 10px;
     margin-bottom: 20px;
-}
+} */
 
 
 
@@ -199,7 +200,6 @@ body {
     100%{ background-position: 0% 50%;}
 }
 
-
 /*================== CONTAINERS ==================*/
 /*basis for header & footer*/
 .container {
@@ -290,6 +290,25 @@ body {
     .header-scroll, .site-header nav { animation: none; }
 }
 
+/*================== DETAIL STUFF ==================*/
+
+.detail-layout{
+    display: grid;
+    grid-template-columns: minmax(10rem, 15rem) 1fr;
+
+    margin-left: 5vw;
+}
+
+#detail-title{
+    justify-self: center;
+}
+
+dl{
+    margin-left: 2vh;
+}
+dl dd{
+    padding-bottom: 1.5vw;
+}
 
 /*================== FOOTER ==================*/
 footer{
