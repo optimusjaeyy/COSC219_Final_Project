@@ -13,7 +13,11 @@ const statusSelect = document.querySelector("#status-filter");
 const resetButton = document.querySelector("#reset-filters");
 const filterToggle = document.querySelector("#filter-toggle");
 const filtersPanel = document.querySelector("#filters");
+const loadMoreButton = document.querySelector("#load-more");
 
+let currentPage = 1;
+let activeFilters = {}; // the filters used for the CURRENT list of results
+let requestId = 0; // numbers each request, so old answers can be ignored
 let debounceTimer;
 
 // --- Creates card for the result ----
@@ -70,9 +74,13 @@ function createCard(series) {
 }
 
 // --- Turn the array into cards and put them in the results list ----
-function renderCards(mediaList) {
+function renderCards(mediaList, append = false) {
   const cards = mediaList.map((series) => createCard(series));
-  resultsEl.replaceChildren(...cards);
+  if (append) {
+    resultsEl.append(...cards);
+  } else {
+    resultsEl.replaceChildren(...cards);
+  }
 }
 
 // --- getter function for filters ---
@@ -86,27 +94,52 @@ function getFilters() {
 }
 
 // --- Loads the output to user ---
-async function loadManga(search) {
-  setStatus("Loading...");
-  resultsEl.replaceChildren();
-  try {
-    const result = await fetchManga(getFilters());
+// Loads one page of results. Page 1 replaces the list, later pages add to it.
+async function loadManga(page = 1) {
+  const myRequest = ++requestId;
+  const append = page > 1;
 
-    // empty check for results
-    if (result.media.length === 0) {
+  // a new search remembers its filters, and Load More reuses them
+  if (!append) activeFilters = getFilters();
+
+  if (append) {
+    loadMoreButton.disabled = true;
+    setStatus("Loading more...");
+  } else {
+    setStatus("Loading...");
+    resultsEl.replaceChildren();
+    loadMoreButton.hidden = true;
+  }
+
+  try {
+    const result = await fetchManga({ ...activeFilters, page });
+    if (myRequest !== requestId) return; // a newer search has taken over
+
+    if (!append && result.media.length === 0) {
       setStatus(
         "No results found. Try changing the search or removing a filter.",
       );
       return;
     }
-    renderCards(result.media);
-    // shows number of result output to user
-    setStatus(`Showing ${result.media.length} results`);
+
+    renderCards(result.media, append);
+    currentPage = page;
+    loadMoreButton.hidden = !result.pageInfo.hasNextPage;
+
+    const total = resultsEl.children.length;
+    setStatus(
+      result.pageInfo.hasNextPage
+        ? `Showing ${total} results`
+        : `Showing all ${total} results`,
+    );
   } catch (error) {
-    // outputs error message
+    if (myRequest !== requestId) return;
     setStatus(`Something went wrong: ${error.message}`);
+  } finally {
+    if (myRequest === requestId) loadMoreButton.disabled = false;
   }
 }
+
 // --- Loads title suggestions to user ---
 async function loadSuggestions(text) {
   // if text is shorter than 2 characters -> clear the suggestions and return
@@ -190,8 +223,11 @@ form.addEventListener("submit", (event) => {
   event.preventDefault(); // Stops the page from reloading
   clearTimeout(debounceTimer);
   suggestionsEl.replaceChildren();
-  loadManga(input.value.trim()); // reads in the input value
+  loadManga();
 });
+
+// --- Load more button listener ---
+loadMoreButton.addEventListener("click", () => loadManga(currentPage + 1));
 
 // --- Calls loadManga() once on page load so the page isn't empty ---
 await Promise.all([loadManga(), loadGenres()]);
