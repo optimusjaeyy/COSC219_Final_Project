@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Series details | Manga Shelf</title>
     <!--Links main.js-->
     <script type="module" src="js/detail.js"></script>
     <!--Links styles.css-->
@@ -21,7 +21,7 @@
       <p id="status" role="status"></p>
 
       <article id="detail" hidden>
-        <h1 id="detail-title"></h1>
+        <h2 id="detail-title"></h2>
 
         <div class="detail-layout">
           <!-- desired outcome: cover on the left, 
@@ -45,18 +45,68 @@
             <dt>Genres</dt>
             <dd id="detail-genres"></dd>
           </dl>
-          <!-- Shelf status dropdown -->
-          <section id="shelf-section" hidden>
-            <h2>Your shelf</h2>
-            <label for="shelf-select">Save to shelf</label>
-            <select id="shelf-select"></select>
-            <p id="shelf-status" role="status"></p>
-          </section>
         </div>
 
-        <h2>Description</h2>
+        <!-- Shelf status dropdown -->
+        <section id="shelf-section" hidden>
+          <h3>Your shelf</h3>
+          <label for="shelf-select">Save to shelf</label>
+          <select id="shelf-select"></select>
+          <p id="shelf-status" role="status"></p>
+        </section>
+
+        <!-- Review and Rating section -->
+        <section id="review-section" hidden>
+          <h3>Rating and comment</h3>
+          <form id="review-form">
+            <fieldset>
+              <legend>Your rating (1 = poor, 5 = great)</legend>
+
+              <label for="rating-1">1</label>
+              <input type="radio" name="rating" value="1" id="rating-1" />
+
+              <label for="rating-2">2</label>
+              <input type="radio" name="rating" value="2" id="rating-2" />
+
+              <label for="rating-3">3</label>
+              <input type="radio" name="rating" value="3" id="rating-3" />
+
+              <label for="rating-4">4</label>
+              <input type="radio" name="rating" value="4" id="rating-4" />
+
+              <label for="rating-5">5</label>
+              <input type="radio" name="rating" value="5" id="rating-5" />
+            </fieldset>
+
+            <label for="review-comment">Comment</label>
+            <textarea id="review-comment" maxlength="500" rows="4"></textarea>
+
+            <button type="submit">Save review</button>
+            <button type="button" id="delete-review">Delete review</button>
+          </form>
+          <p id="review-status" role="status"></p>
+        </section>
+
+        <div id="review-display" hidden>
+          <h4>Your saved review</h4>
+          <p id="review-display-rating"></p>
+          <p id="review-display-comment"></p>
+        </div>
+
+        <h3>Description</h3>
         <p id="detail-description"></p>
       </article>
     </main>
+    <footer>
+      <p>
+        Data from <a href="https://anilist.co">AniList</a>. Built by Jen Juanich
+        and Reyan Ragual for COSC 219 Final Project.
+      </p>
+      <p>
+        <a href="https://github.com/optimusjaeyy/COSC219-Final_Project"
+          >View the source on GitHub</a
+        >
+      </p>
+    </footer>
   </body>
 </html>
