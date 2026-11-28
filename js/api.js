@@ -55,6 +55,12 @@ const DETAIL_QUERY = `
       chapters
       countryOfOrigin
       genres
+      staff(perPage:4){
+      edges{
+        role
+          node { name { full } }
+        }
+      }
     }
   }
 `;

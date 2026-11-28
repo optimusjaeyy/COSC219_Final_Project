@@ -16,6 +16,7 @@ const seriesStatusEl = document.querySelector("#detail-status");
 const chaptersEl = document.querySelector("#detail-chapters");
 const genresEl = document.querySelector("#detail-genres");
 const descriptionEl = document.querySelector("#detail-description");
+const authorEl = document.querySelector("#detail-author");
 // Shelf elements
 const shelfSection = document.querySelector("#shelf-section");
 const shelfSelect = document.querySelector("#shelf-select");
@@ -44,9 +45,17 @@ function renderDetail(series) {
   coverEl.alt = `Cover page of ${name}`;
 
   scoreEl.textContent =
-    series.averageScore > 0 ? `${series.averageScore} / 100` : "No score available";
+    series.averageScore > 0
+      ? `${series.averageScore} / 100`
+      : "No score available";
 
   languageEl.textContent = LANGUAGES[series.countryOfOrigin] ?? "Unknown";
+
+  // ?. and ?? [] stops it from crashing when a series has no staff
+  const credits = series.staff?.edges ?? [];
+  authorEl.textContent = credits.length
+    ? credits.map((c) => `${c.node.name.full} (${c.role})`).join(", ")
+    : "Not listed";
 
   seriesStatusEl.textContent = series.status;
 
