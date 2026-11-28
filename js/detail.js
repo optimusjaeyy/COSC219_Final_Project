@@ -6,6 +6,7 @@ import {
   findShelf,
   SHELF_NAMES,
 } from "./storage.js";
+
 // ----  Page elements ----
 const detailEl = document.querySelector("#detail");
 const titleEl = document.querySelector("#detail-title");

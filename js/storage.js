@@ -7,6 +7,9 @@ const SHELVES_KEY = "mangaShelves";
 // use the same list and never retype it
 export const SHELF_NAMES = ["Plan to Read", "Reading", "Completed", "Dropped"];
 
+// The key for saving reviews from user
+const REVIEWS_KEY = "mangaReviews";
+
 // Returns a new set of shelves with every shelf empty
 function emptyShelves() {
   return Object.fromEntries(SHELF_NAMES.map((name) => [name, []]));
@@ -90,4 +93,55 @@ export function findShelf(id) {
       shelves[name].some((entry) => entry.id === id),
     ) ?? null
   );
+}
+
+// A review is valid if the rating is a whole number 1-5 and
+// the comment is a string/text
+const isReview = (r) =>
+  r &&
+  Number.isInteger(r.rating) &&
+  r.rating >= 1 &&
+  r.rating <= 5 &&
+  typeof r.comment === "string";
+
+function loadAllReviews() {
+  try {
+    const raw = localStorage.getItem(REVIEWS_KEY);
+    if (raw === null) return {};
+
+    const data = JSON.parse(raw);
+
+    if (!data || typeof data !== "object" || Array.isArray(data)) return {};
+
+    return Object.fromEntries(
+      Object.entries(data).filter(([id, review]) => isReview(review)),
+    );
+  } catch (error) {
+    return {};
+  }
+}
+
+function saveAllReviews(reviews) {
+  try {
+    localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export function loadReview(id) {
+  return loadAllReviews()[id] ?? null;
+}
+
+export function saveReview(id, review) {
+  const reviews = loadAllReviews();
+  reviews[id] = review;
+  return saveAllReviews(reviews);
+}
+
+export function deleteReview(id) {
+  const reviews = loadAllReviews();
+  delete reviews[id];
+  return saveAllReviews(reviews);
 }
